@@ -1,0 +1,9 @@
+{
+  "DEBUG" : true,
+  "token" : "",
+  "webhookPort" : 0,
+  "serverPort" : 0,
+  "mongodbURI" : "mongodb://localhost/test",
+  "username" : "username",
+  "PPDupdateInterval" : 10
+}
