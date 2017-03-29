@@ -16,7 +16,9 @@ mongoose.connection
 let Update = require('./lib/models/update')
 let Chat = require('./lib/models/chat')
 
-app.get('/', (req, res) => {
+app.use(express.static('public'))
+
+app.get('/chats', (req, res) => {
   Chat.find()
     .sort({ _id: -1}).limit(25)
     .populate('tags')

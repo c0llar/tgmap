@@ -13,10 +13,19 @@
   "devDependencies": {
     "localtunnel": "^1.8.2",
     "nodemon": "^1.11.0",
-    "webpack": "beta"
+    "webpack": "^2.3.2"
   },
   "dependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2016": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-runtime": "^6.23.0",
+    "css-loader": "^0.27.3",
     "express": "^4.14.0",
-    "mongoose": "^4.8.1"
+    "mongoose": "^4.8.1",
+    "vue": "^2.2.6",
+    "vue-loader": "^11.3.3",
+    "vue-template-compiler": "^2.2.6"
   }
 }
