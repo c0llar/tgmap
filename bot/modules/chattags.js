@@ -12,8 +12,10 @@ medium.on('public_message', message => {
          message.text.startsWith(`/tag@${config.username} `) ) {
       api.getChatAdministrators(message.chat.id)
         .then(admins => {
-          if (admins.result.some(entry => entry.user.id == message.from.id))
+          if (admins.result.some(entry => entry.user.id == message.from.id)) {
+            clearTags(message.chat.id)
             setTags(message)
+          }
         })
     }
   }
@@ -26,12 +28,13 @@ const setTags = (message) => {
       .filter((tag, i, a) => a.indexOf(tag) == i )
       .slice(1, 4)
 
-  clearTags(message.chat.id)
-  for (let tagname of tags) {
-    Tag.findOne({name: tagname})
-      .then(tag => tag ? tag : Tag({name: tagname}).save())
-      .then(tag => pushTag(message.chat.id, tag))
-  }
+  let tagJobs = tags.map(tagname =>
+        Tag.findOne({name: tagname})
+              .then(tag => tag ? tag : Tag({name: tagname}).save())
+              .then(tag => pushTag(message.chat.id, tag)))
+
+  Promise.all(tagJobs).then( _ =>
+      api.sendReply(message.chat.id, message.message_id, 'Tags are set 👌'))
 }
 
 const clearTags = (chatId) =>

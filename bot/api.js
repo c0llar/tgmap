@@ -17,7 +17,15 @@ const invokeMethod = (method, arguments = {}) => {
 const sendMsg = (recepient, text) => {
   return invokeMethod('sendMessage', {
     chat_id: recepient,
-    text, text
+    text: text
+  })
+}
+
+const sendReply = (recepient, replyTo, text ) => {
+  return invokeMethod('sendMessage', {
+    chat_id: recepient,
+    reply_to_message_id: replyTo,
+    text: text
   })
 }
 
@@ -30,5 +38,6 @@ const getChatAdministrators = (chatId) => {
 module.exports = {
   invokeMethod,
   sendMsg,
+  sendReply,
   getChatAdministrators
 }
