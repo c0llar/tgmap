@@ -1,23 +1,30 @@
 <template>
-  <div>
-    <div v-for="chat in chats">
-      {{ chat.title }}
-    </div>
-    <input v-model="msg">
+  <div class="app">
+    <chatmap />
+    <sidebar />
   </div>
 </template>
 
 <script>
-  export default {
-    data: {
-      msg: '',
-      chats: []
-    },
+  import sidebar from './sidebar.vue'
+  import chatmap from './chatmap.vue'
 
-    mounted() {
-      fetch('http://local.dev/chats')
-        .then(data => data.json())
-        .then(chats => this.chats = chats)
+  export default {
+    components: {
+      chatmap,
+      sidebar
     }
   }
 </script>
+
+<style>
+  .app {
+    display: flex;
+    flex-flow: row;
+  }
+
+  body {
+    margin: 0 0 0 0;
+  }
+</style>
+
