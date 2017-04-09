@@ -9,6 +9,7 @@ let medium = new EventEmitter();
 
 if (config.DEBUG) {
   let tunnel = localtunnel(config.webhookPort, (err, tunnel) => {
+    console.log(err)
     api.invokeMethod('setWebhook', {url: tunnel.url})
       .then(res => console.log(`[DEBUG] ${res.description}`))
   })

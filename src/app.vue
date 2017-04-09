@@ -21,6 +21,8 @@
   .app {
     display: flex;
     flex-flow: row;
+    height: 100vh;
+    overflow: hidden;
   }
 
   body {

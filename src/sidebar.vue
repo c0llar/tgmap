@@ -1,44 +1,62 @@
 <template>
-  <div class="eblo">
-    <div class="title"> SIDEBAR </div>
-    <div v-for="chat in chats">
-      {{ chat.title }}
+  <div class="sidebar">
+    <div class="menu">
+      <span class="buttons"> [search] [tags] </span>
+      <span class="title"> {{ msg }} </span>
     </div>
-    <input v-model="msg">
+
+    <div class="sidebarContainer">
+      <chat v-for="chat in chats" v-bind:chat="chat" :key="chat.id"></chat>
+    </div>
+
   </div>
 </template>
 
 <script>
+  import chat from './chat.vue'
+
   export default {
     data() {
       return {
-        msg: '',
+        msg: 'CHATS',
         chats: []
       }
     },
 
+    components: {
+      chat
+    },
+
     mounted() {
-      fetch('http://local.dev/chats')
+      fetch('/chats')
         .then(data => data.json())
         .then(chats => this.chats = chats)
+        .then(_ => console.log(this.chats))
     }
   }
 </script>
 
 <style>
-  .eblo {
-    background-color: #777;
+  .sidebar {
+    background-color: #fff;
+    color: black;
     flex: 1 6 30%;
   }
 
-  .title {
+  .menu {
+    color: white;
     width: 100vw;
     position: fixed;
     right: 30%;
     text-align: right;
     font-size: 5vw;
     font-weight: bold;
-    margin: -5px 0 0 0;
+    margin: -1vw 0 0 0;
+  }
+
+  .buttons {
+    font-size: 1vw;
+    margin-right: 0.5vw;
   }
 </style>
 
