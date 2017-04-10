@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <div class="menu">
-      <span class="buttons"> [search] [tags] </span>
+      <span class="buttons"> [search] [tags] [chats] </span>
       <span class="title"> {{ msg }} </span>
     </div>
 
@@ -31,7 +31,6 @@
       fetch('/chats')
         .then(data => data.json())
         .then(chats => this.chats = chats)
-        .then(_ => console.log(this.chats))
     }
   }
 </script>
@@ -45,18 +44,28 @@
 
   .menu {
     color: white;
-    width: 100vw;
     position: fixed;
+
+    width: 100vw;
     right: 30%;
+
     text-align: right;
-    font-size: 5vw;
+
+    font-size: 7vw;
+    font-family: 'Oswald', sans-serif;
     font-weight: bold;
-    margin: -1vw 0 0 0;
+
+    margin: -3vw -10px 0 0;
   }
 
   .buttons {
     font-size: 1vw;
     margin-right: 0.5vw;
+  }
+
+  .sidebarContainer {
+    height: 100vh;
+    overflow: scroll;
   }
 </style>
 

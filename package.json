@@ -7,7 +7,7 @@
   "scripts": {
     "build": "webpack",
     "bot_dev": "nodemon -w bot bot/main.js",
-    "server_dev": "nodemon server.js",
+    "server_dev": "nodemon server.js -i src",
     "dev": "yarn run bot_dev & yarn run server_dev"
   },
   "devDependencies": {
@@ -24,6 +24,7 @@
     "css-loader": "^0.27.3",
     "express": "^4.14.0",
     "mongoose": "^4.8.1",
+    "request": "^2.81.0",
     "vue": "^2.2.6",
     "vue-loader": "^11.3.3",
     "vue-template-compiler": "^2.2.6"

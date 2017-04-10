@@ -24,7 +24,9 @@ app.get('/chats', (req, res) => {
     .populate('tags')
     .populate('participants')
     .then(chats => {
-      res.send(JSON.stringify(chats))
+      res.send(JSON.stringify(
+        chats.concat(chats).concat(chats).concat(chats).concat(chats)
+      ))
     })
 })
 

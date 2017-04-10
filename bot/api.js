@@ -1,17 +1,27 @@
-let https = require('https')
+let fs = require('fs')
+let request = require('request')
 let querystring = require('querystring')
 let config = require('../config')
 
-const invokeMethod = (method, arguments = {}) => {
-  let params = querystring.stringify(arguments)
-  let query = `https://api.telegram.org/bot${config.token}/${method}?${params}`
+const invokeMethod = (method, arguments = {}, file = null) => {
+  let formData = null
+  if (file)
+    formData = { document: fs.createReadStream(file) }
+
   return new Promise((resolve, reject) => {
-    https.get(query, res => {
-      let body = ''
-      res.on('data', data => body += data)
-      res.on('end', () => resolve(JSON.parse(body)))
-    });
+    request.post(
+      { url: `https://api.telegram.org/bot${config.token}/${method}`,
+        qs: arguments,
+        formData: formData },
+      (err, res, body) => resolve(JSON.parse(body))
+    )
   })
+}
+
+const setWebhook = (url, certificate) => {
+  return invokeMethod('setWebhook', {
+    url: url
+  }, certificate)
 }
 
 const sendMsg = (recepient, text) => {
@@ -19,6 +29,14 @@ const sendMsg = (recepient, text) => {
     chat_id: recepient,
     text: text
   })
+}
+
+const sendPhoto = (recepient, photo) => {
+  return invokeMethod(
+    'sendDocument',
+    { chat_id: recepient },
+    photo
+  )
 }
 
 const sendReply = (recepient, replyTo, text ) => {
@@ -37,7 +55,9 @@ const getChatAdministrators = (chatId) => {
 
 module.exports = {
   invokeMethod,
+  setWebhook,
   sendMsg,
   sendReply,
+  sendPhoto,
   getChatAdministrators
 }
