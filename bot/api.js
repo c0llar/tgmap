@@ -3,11 +3,7 @@ let request = require('request')
 let querystring = require('querystring')
 let config = require('../config')
 
-const invokeMethod = (method, arguments = {}, file = null) => {
-  let formData = null
-  if (file)
-    formData = { document: fs.createReadStream(file) }
-
+const invokeMethod = (method, arguments = {}, formData = null) => {
   return new Promise((resolve, reject) => {
     request.post(
       { url: `https://api.telegram.org/bot${config.token}/${method}`,
@@ -19,9 +15,17 @@ const invokeMethod = (method, arguments = {}, file = null) => {
 }
 
 const setWebhook = (url, certificate) => {
-  return invokeMethod('setWebhook', {
-    url: url
-  }, certificate)
+  if (certificate)
+    return invokeMethod(
+      'setWebhook',
+      { url: url },
+      { certificate: fs.createReadStream(certificate) }
+    )
+  else
+    return invokeMethod(
+      'setWebhook',
+      { url: url }
+    )
 }
 
 const sendMsg = (recepient, text) => {

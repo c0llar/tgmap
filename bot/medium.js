@@ -7,6 +7,7 @@ let api = require('./api')
 
 let medium = new EventEmitter();
 
+api.setWebhook("") // remove old webhook
 if (config.DEBUG) {
   localtunnel(config.webhookPort, (err, tunnel) =>
     api.setWebhook(tunnel.url)
@@ -27,11 +28,12 @@ let server = http.createServer((request, response) => {
 })
 
 let emitUpdate = update => {
-  if (update.message)
+  if (update.message) {
     if (update.message.chat.type == 'private')
       medium.emit('private_message', update.message)
-  else
-    medium.emit('public_message', update.message)
+    else
+      medium.emit('public_message', update.message)
+  }
 
   medium.emit('update', update)
 }

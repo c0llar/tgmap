@@ -42,6 +42,8 @@ app.get('/:chatId', (req, res) => {
     })
 })
 
-app.listen(config.serverPort, () => {
-  console.log('[APP] Started')
-})
+app.listen(
+  config.serverPort,
+  "127.0.0.1",
+  () => console.log('[APP] Started')
+)
