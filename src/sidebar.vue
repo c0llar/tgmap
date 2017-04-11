@@ -1,36 +1,28 @@
 <template>
   <div class="sidebar">
     <div class="menu">
-      <span class="buttons"> [search] [tags] [chats] </span>
-      <span class="title"> {{ msg }} </span>
+      <span class="buttons">
+        <router-link to="/search"> [search] </router-link>
+        <router-link to="/tags"> [tags] </router-link>
+        <router-link to="/chats"> [chats] </router-link>
+      </span>
+      <span class="title"> {{ $route.name}} </span>
     </div>
 
     <div class="sidebarContainer">
-      <chat v-for="chat in chats" v-bind:chat="chat" :key="chat.id"></chat>
+      <router-view> </router-view>
     </div>
 
   </div>
 </template>
 
 <script>
-  import chat from './chat.vue'
-
   export default {
     data() {
-      return {
-        msg: 'CHATS',
-        chats: []
-      }
-    },
-
-    components: {
-      chat
+      return {}
     },
 
     mounted() {
-      fetch('/chats')
-        .then(data => data.json())
-        .then(chats => this.chats = chats)
     }
   }
 </script>
@@ -58,9 +50,12 @@
     margin: -3vw -10px 0 0;
   }
 
-  .buttons {
+  .buttons a {
+    color: white;
+    text-decoration: none;
     font-size: 1vw;
     margin-right: 0.5vw;
+    
   }
 
   .sidebarContainer {

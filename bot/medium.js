@@ -7,15 +7,6 @@ let api = require('./api')
 
 let medium = new EventEmitter();
 
-api.setWebhook("") // remove old webhook
-if (config.DEBUG) {
-  localtunnel(config.webhookPort, (err, tunnel) =>
-    api.setWebhook(tunnel.url)
-      .then(res => console.log(`[DEBUG] ${res.description}`)))
-} else {
-  api.setWebhook(config.webhookUrl, config.certificate)
-}
-
 let server = http.createServer((request, response) => {
   let body = []
   request
@@ -38,10 +29,24 @@ let emitUpdate = update => {
   medium.emit('update', update)
 }
 
+let setupWebhook = () => {
+  api.setWebhook("") // remove old webhook
+  if (config.DEBUG) {
+    localtunnel(config.webhookPort, (err, tunnel) =>
+                api.setWebhook(tunnel.url)
+                .then(res => console.log(`[DEBUG] ${res.description}`)))
+  } else {
+    api.setWebhook(config.webhookUrl, config.certificate)
+  }
+}
+
 server.listen(
   config.webhookPort,
   '127.0.0.1',
-  () => console.log('[BOT] Started')
+  () => {
+    setupWebhook()
+    console.log('[BOT] Started')
+  }
 )
 
 module.exports = medium

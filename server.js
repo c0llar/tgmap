@@ -15,10 +15,11 @@ mongoose.connection
 
 let Update = require('./lib/models/update')
 let Chat = require('./lib/models/chat')
+let Tag = require('./lib/models/tag')
 
 app.use(express.static('public'))
 
-app.get('/chats', (req, res) => {
+app.get('/api/chats', (req, res) => {
   Chat.find()
     .sort({ _id: -1}).limit(25)
     .populate('tags')
@@ -30,7 +31,14 @@ app.get('/chats', (req, res) => {
     })
 })
 
-app.get('/:chatId', (req, res) => {
+app.get('/api/tags', (req, res) => {
+  Tag.find()
+    .then(tags => {
+      res.send(JSON.stringify(tags))
+    })
+})
+
+app.get('/api/:chatId', (req, res) => {
   Chat.findOne({id: Number(req.params.chatId)})
     .populate('tags')
     .populate('participants')
@@ -40,6 +48,10 @@ app.get('/:chatId', (req, res) => {
     .catch(err => {
       res.send('404')
     })
+})
+
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html')
 })
 
 app.listen(
