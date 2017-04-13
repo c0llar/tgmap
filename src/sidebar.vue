@@ -2,15 +2,15 @@
   <div class="sidebar">
     <div class="menu">
       <span class="buttons">
-        <router-link to="/search"> [search] </router-link>
         <router-link to="/tags"> [tags] </router-link>
         <router-link to="/chats"> [chats] </router-link>
       </span>
-      <span class="title"> {{ $route.name}} </span>
+      <span class="title"> {{ $route.name }} </span>
     </div>
 
     <div class="sidebarContainer">
       <router-view> </router-view>
+      <div class="footer"> github link </div>
     </div>
 
   </div>
@@ -61,6 +61,14 @@
   .sidebarContainer {
     height: 100vh;
     overflow: scroll;
+  }
+
+  .footer {
+    margin-top: 1vw;
+    margin-bottom: 1.5vw;
+    text-align: center;
+    font-size: 1vw;
+    font-family: 'PT Mono', monospace;
   }
 </style>
 

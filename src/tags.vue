@@ -1,6 +1,6 @@
 <template>
   <div class="tags">
-    <div class="tag" v-for="tag in tags">
+    <div class="tag" v-for="tag in $store.state.tags">
       [{{ tag.name }}]
     </div>
   </div>
@@ -9,15 +9,11 @@
 <script>
   export default {
     data() {
-      return {
-        tags: []
-      }
+      return {}
     },
 
     mounted() {
-      fetch('/api/tags')
-        .then(data => data.json())
-        .then(tags => this.tags = tags)
+      this.$store.dispatch('updateTags')
     }
   }
 </script>
