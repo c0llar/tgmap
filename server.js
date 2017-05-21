@@ -3,7 +3,10 @@ let express = require('express')
 let app = express()
 
 let postsMetric = require('./lib/chatPostsMetric')
-let updater = postsMetric()
+let ppmUpdater = postsMetric()
+
+let graphMetric = require('./lib/graphLinkMetric')
+let graphUpdater = graphMetric()
 
 let mongoose = require('mongoose')
 
@@ -25,9 +28,7 @@ app.get('/api/chats', (req, res) => {
     .populate('tags')
     .populate('participants')
     .then(chats => {
-      res.send(JSON.stringify(
-        chats.concat(chats).concat(chats).concat(chats).concat(chats)
-      ))
+      res.send(JSON.stringify(chats))
     })
 })
 
@@ -36,6 +37,10 @@ app.get('/api/tags', (req, res) => {
     .then(tags => {
       res.send(JSON.stringify(tags))
     })
+})
+
+app.get('/api/graph', (req, res) => {
+  res.send(JSON.stringify(graphUpdater.getGraph()))
 })
 
 app.get('/api/:chatId', (req, res) => {

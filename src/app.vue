@@ -13,6 +13,11 @@
     components: {
       chatmap,
       sidebar
+    },
+
+    mounted() {
+      this.$store.dispatch('updateChats')
+      this.$store.dispatch('updateTags')
     }
   }
 </script>

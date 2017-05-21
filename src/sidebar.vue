@@ -47,7 +47,7 @@
     font-family: 'Oswald', sans-serif;
     font-weight: bold;
 
-    margin: -3vw -10px 0 0;
+    margin: -3vw -7px 0 0;
   }
 
   .buttons a {

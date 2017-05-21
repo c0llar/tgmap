@@ -57,11 +57,20 @@ const getChatAdministrators = (chatId) => {
   })
 }
 
+const getUserProfilePhotos = (userId, offset, limit = 100) => {
+  return invokeMethod('getUserProfilePhotos', {
+    user_id: userId,
+    offset: offset,
+    limit: limit
+  })
+}
+
 module.exports = {
   invokeMethod,
   setWebhook,
   sendMsg,
   sendReply,
   sendPhoto,
-  getChatAdministrators
+  getChatAdministrators,
+  getUserProfilePhotos
 }

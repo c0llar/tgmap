@@ -4,8 +4,15 @@
       <input v-model="search"
              type="text" placeholder="search" spellcheck="false" />
     </div>
-    <div class="chat" v-for="chat in filter(chats, search)">
-      <div class="chatname"> [{{ chat.title }}] </div>
+    <div class="chat" v-for="chat in filter($store.state.chats, search)">
+      <div class="chatname">
+        <router-link v-if="chat.username" :to="{ path: chat.username }">
+          [{{ chat.title }}]
+        </router-link>
+        <router-link v-else :to="{ path: String(chat.id) }">
+          [{{ chat.title }}]
+        </router-link>
+      </div>
       <div class="username" v-if="chat.username"> @{{chat.username}} </div>
       <span v-for="tag in chat.tags">
         [{{ tag.name }}]
@@ -20,24 +27,16 @@
   export default {
     data() {
       return {
-        chats: [],
         search: ''
       }
     },
 
     methods: {
-      filter: (chats, str) => {
-        return chats.filter(chat => chat.title.indexOf(str) >= 0)
-      }
+      filter: (chats, str) => chats
+        .filter(chat => chat.title.indexOf(str) >= 0)
     },
 
     mounted() {
-      fetch('/api/chats')
-        .then(data => data.json())
-        .then(chats => {
-          this.chats = chats
-          this.filteredChats = chats
-        })
     }
   }
 </script>
@@ -73,6 +72,10 @@
     font-weight: bold;
   }
 
+  .chatname a {
+    text-decoration: none;
+    color: black;
+  }
 
   .chatname {
     font-family: 'Oswald', sans-serif;

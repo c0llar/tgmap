@@ -21,6 +21,9 @@ medium.on('public_message', message => {
   }
 })
 
+const clearTags = (chatId) =>
+      Chat.update({ id: Number(chatId) }, { tags: [] }, {}, () => {})
+
 const setTags = (message) => {
   let tags = message.text
       .split(' ')
@@ -37,13 +40,9 @@ const setTags = (message) => {
       api.sendReply(message.chat.id, message.message_id, 'Tags are set 👌'))
 }
 
-const clearTags = (chatId) =>
-  Chat.update({ id: Number(chatId) }, { tags: [] }, {}, () => {})
-
 const pushTag = (chatId, tag) =>
   Chat.update(
     { id: Number(chatId) },
     { $push: { tags: tag._id}},
     {}, () => {}
   )
-

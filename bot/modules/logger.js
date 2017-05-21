@@ -8,7 +8,7 @@ let User = require('../../lib/models/user')
 
 medium.on('update', update => {
   Update(update).save()
-    .then(m => console.log(m))
+    // .then(m => console.log(m))
 })
 
 medium.on('public_message', message => {

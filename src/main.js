@@ -5,6 +5,7 @@ import store from './store.js'
 
 import App from './app.vue'
 import Chats from './chats.vue'
+import Chat from './chat.vue'
 import Tags from './tags.vue'
 
 Vue.use(VueRouter)
@@ -14,11 +15,10 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  base: __dirname,
   routes: [
-    // path: /chats/(:chatid|:chatUsername)
     { path: '/chats', name: 'CHATS', component: Chats },
     { path: '/tags', name: 'TAGS', component: Tags },
+    { path: '/:chatid', name: 'CHAT', component: Chat },
     { path: '/*', redirect: '/chats' }
   ]
 })
