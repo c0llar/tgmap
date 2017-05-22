@@ -47,7 +47,7 @@
     font-family: 'Oswald', sans-serif;
     font-weight: bold;
 
-    margin: -3vw -7px 0 0;
+    margin: -2.5vw 3px 0 0;
   }
 
   .buttons a {
@@ -55,7 +55,6 @@
     text-decoration: none;
     font-size: 1vw;
     margin-right: 0.5vw;
-    
   }
 
   .sidebarContainer {

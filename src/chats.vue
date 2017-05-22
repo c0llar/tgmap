@@ -64,12 +64,9 @@
   }
 
   .searchInput {
-    padding-top: 3vw;
+    padding-top: 3.2vw;
     padding-left: 13px;
     padding-right: 13px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
   }
 
   .chatname a {

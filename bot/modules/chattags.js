@@ -33,7 +33,7 @@ const setTags = (message) => {
 
   let tagJobs = tags.map(tagname =>
         Tag.findOne({name: tagname})
-              .then(tag => tag ? tag : Tag({name: tagname}).save())
+              .then(tag => tag ? tag : Tag({ name: tagname }).save())
               .then(tag => pushTag(message.chat.id, tag)))
 
   Promise.all(tagJobs).then( _ =>

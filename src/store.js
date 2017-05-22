@@ -13,6 +13,7 @@ const mutations = {
     state.chats = chats
   },
   updateTags (state, tags) {
+    tags = tags.sort((t1, t2) => t1.count - t2.count < 0 ? 1 : -1)
     state.tags = tags
   }
 }

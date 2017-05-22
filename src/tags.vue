@@ -1,8 +1,10 @@
 <template>
   <div class="tags">
-    <div class="tag" v-for="tag in $store.state.tags">
-      [{{ tag.name }}]
-    </div>
+    <span v-for="tag in $store.state.tags">
+      <div class="tag" v-if="tag.count">
+        [{{ tag.name }}]<sup>×{{ tag.count }}</sup>
+      </div>
+    </span>
   </div>
 </template>
 

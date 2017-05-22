@@ -125,7 +125,7 @@
 
   .link {
     fill: none;
-    stroke: #dc0;
+    stroke: #333333;
   }
 </style>
 
