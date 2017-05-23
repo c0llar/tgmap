@@ -14,6 +14,7 @@
 
     mounted() {
       initMap()
+      console.log(d3.interpolateRainbow(0.4))
     }
   }
 
@@ -23,7 +24,7 @@
     let height = window.innerHeight
 
     let simulation = d3.forceSimulation()
-          .force("link", d3.forceLink().distance(77).strength(0.5))
+          .force("link", d3.forceLink().distance(77).strength(0.3))
           .force("charge", d3.forceManyBody())
           .force("center", d3.forceCenter(width / 2, height / 2))
 
@@ -59,6 +60,18 @@
 
       node.append("circle")
         .attr("r", d => scale(d.postsPerDay))
+        .attr("fill", 'yellow')
+        .attr("stroke", 'yellow')
+
+      node.append("circle")
+        .attr("r", d => scale(d.postsPerDay) - scale(d.postsPerDay) / 3)
+        .attr("fill", 'red')
+        .attr("stroke", 'red')
+
+      node.append("circle")
+        .attr("r", d => scale(d.postsPerDay) - 2 * scale(d.postsPerDay) / 3)
+        .attr("fill", 'grey')
+        .attr("stroke", 'grey')
 
       simulation
         .nodes(nodes)
@@ -103,7 +116,6 @@
       d.fx = null
       d.fy = null
     }
-
   }
 </script>
 
