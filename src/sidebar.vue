@@ -1,11 +1,11 @@
 <template>
   <div class="sidebar">
     <div class="menu">
-      <span class="buttons">
+      <div class="title"> {{ $route.name }} </div>
+      <div class="buttons">
         <router-link to="/tags"> [tags] </router-link>
         <router-link to="/chats"> [chats] </router-link>
-      </span>
-      <span class="title"> {{ $route.name }} </span>
+      </div>
     </div>
 
     <div class="sidebarContainer">
@@ -50,11 +50,16 @@
     margin: -2.5vw 3px 0 0;
   }
 
+  .buttons {
+    font-size: 1vw !important;
+    margin-top: -1.5vw;
+  }
+
   .buttons a {
     color: white;
     text-decoration: none;
-    font-size: 1vw;
-    margin-right: 0.5vw;
+    font-size: 1.2vw;
+    margin-right: 3px;
   }
 
   .sidebarContainer {

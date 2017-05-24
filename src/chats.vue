@@ -7,14 +7,17 @@
     <div class="chat" v-for="chat in filter($store.state.chats, search)">
       <div class="chatname">
         <router-link v-if="chat.username" :to="{ path: chat.username }">
-          [{{ chat.title }}]
+          {{ chat.title }}
         </router-link>
         <router-link v-else :to="{ path: String(chat.id) }">
-          [{{ chat.title }}]
+          {{ chat.title }}
         </router-link>
       </div>
-      <div class="username" v-if="chat.username"> @{{chat.username}} </div>
-      <span v-for="tag in chat.tags">
+      <div class="username" v-if="chat.username">
+        <a v-bind:href="`https://t.me/${chat.username}`">@{{chat.username}}</a>
+      </div>
+      <span v-for="tag in chat.tags"
+            v-bind:style="{ color: colorById(tag._id) }" >
         [{{ tag.name }}]
       </span>
     <div> {{ chat.participants.length }} members </div>
@@ -24,6 +27,8 @@
 </template>
 
 <script>
+  import { colorById }  from './helpers'
+
   export default {
     data() {
       return {
@@ -33,7 +38,9 @@
 
     methods: {
       filter: (chats, str) => chats
-        .filter(chat => chat.title.indexOf(str) >= 0)
+        .filter(chat => chat.title.indexOf(str) >= 0),
+
+      colorById
     },
 
     mounted() {
@@ -50,6 +57,14 @@
     padding-bottom: 7px;
     padding-left: 13px;
     padding-right: 13px;
+  }
+
+  a {
+    color: black;
+  }
+
+  .username {
+    padding-bottom: 3px;
   }
 
   input[type=text] {

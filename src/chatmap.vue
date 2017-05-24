@@ -6,6 +6,7 @@
 
 <script>
   import * as d3 from 'd3'
+  import { colorById }  from './helpers'
 
   export default {
     data() {
@@ -14,7 +15,6 @@
 
     mounted() {
       initMap()
-      console.log(d3.interpolateRainbow(0.4))
     }
   }
 
@@ -58,20 +58,17 @@
         .attr("dy", ".35em")
         .text(d => d.title)
 
-      node.append("circle")
-        .attr("r", d => scale(d.postsPerDay))
-        .attr("fill", 'yellow')
-        .attr("stroke", 'yellow')
+      let makeLayers = (n) => {
+        for (let i = 0; i < n; i +=1 )
+          node.append("circle")
+            .attr("r", d => scale(d.postsPerDay) - i * scale(d.postsPerDay) / n)
+            .attr("fill", d =>
+                  d.tags.length > i ? colorById(d.tags[i]._id) : "white")
+            .attr("stroke", d =>
+                  d.tags.length > i ? colorById(d.tags[i]._id) : "white")
+      }
 
-      node.append("circle")
-        .attr("r", d => scale(d.postsPerDay) - scale(d.postsPerDay) / 3)
-        .attr("fill", 'red')
-        .attr("stroke", 'red')
-
-      node.append("circle")
-        .attr("r", d => scale(d.postsPerDay) - 2 * scale(d.postsPerDay) / 3)
-        .attr("fill", 'grey')
-        .attr("stroke", 'grey')
+      makeLayers(3)
 
       simulation
         .nodes(nodes)
@@ -95,7 +92,7 @@
     const positionNode = d => `translate(${d.x},${d.y})`
 
     const scale = n => {
-      if (n < 27) return 3
+      if (n < 27) return 10
       if (n > 8000) return 21
       return Math.cbrt(n)
     }
