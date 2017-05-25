@@ -3,6 +3,7 @@
     <div class="menu">
       <div class="title"> {{ $route.name }} </div>
       <div class="buttons">
+        <router-link to="/about"> [about] </router-link>
         <router-link to="/tags"> [tags] </router-link>
         <router-link to="/chats"> [chats] </router-link>
       </div>
@@ -37,16 +38,12 @@
   .menu {
     color: white;
     position: fixed;
-
-    width: 100vw;
-    right: 30%;
-
-    text-align: right;
-
     font-size: 7vw;
     font-family: 'Oswald', sans-serif;
     font-weight: bold;
-
+    text-align: right;
+    width: 100vw;
+    right: 30%;
     margin: -2.5vw 3px 0 0;
   }
 
@@ -68,11 +65,11 @@
   }
 
   .footer {
+    font-family: 'PT Mono', monospace;
+    font-size: 1vw;
+    text-align: center;
     margin-top: 1vw;
     margin-bottom: 1.5vw;
-    text-align: center;
-    font-size: 1vw;
-    font-family: 'PT Mono', monospace;
   }
 </style>
 

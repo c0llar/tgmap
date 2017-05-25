@@ -33,5 +33,10 @@
   body {
     margin: 0 0 0 0;
   }
+
+  a {
+    color: black;
+  }
+
 </style>
 

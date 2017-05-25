@@ -122,19 +122,16 @@
     flex: 1 6 70%;
   }
 
-  #chatmap {
-    width: 100%;
-    height: 100%;
-  }
-
   .node {
+    font-family: 'PT Mono', monospace;
+    font-size: 0.9vw;
     stroke: #fff;
     fill: #fff;
   }
 
   .link {
     fill: none;
-    stroke: #333333;
+    stroke: #333;
   }
 </style>
 

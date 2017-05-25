@@ -15,10 +15,8 @@ let Chat = require('./lib/models/chat')
 let Tag = require('./lib/models/tag')
 
 let postsMetric = require('./lib/chatPostsMetric')
-let ppmUpdater = postsMetric()
-
 let graphMetric = require('./lib/graphLinkMetric')
-let graphUpdater = graphMetric()
+let graphMetric2 = require('./lib/graphLinkMetric')
 
 app.use(express.static('public'))
 
@@ -46,7 +44,7 @@ app.get('/api/tags', (req, res) => {
 })
 
 app.get('/api/graph', (req, res) => {
-  res.send(JSON.stringify(graphUpdater.getGraph()))
+  res.send(JSON.stringify(graphMetric.getGraph()))
 })
 
 app.get('/api/:chatId', (req, res) => {
