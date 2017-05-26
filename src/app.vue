@@ -18,6 +18,7 @@
     mounted() {
       this.$store.dispatch('updateChats')
       this.$store.dispatch('updateTags')
+      this.$store.dispatch('updateGraph')
     }
   }
 </script>

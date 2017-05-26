@@ -14,72 +14,88 @@
     },
 
     mounted() {
-      initMap()
+      initMap(this.$store)
     }
   }
 
-  const initMap = () => {
+  const initMap = (store) => {
     let svg = d3.select("svg")
-    let width = window.innerWidth - window.innerWidth * 0.3
-    let height = window.innerHeight
-
     let simulation = d3.forceSimulation()
           .force("link", d3.forceLink().distance(77).strength(0.3))
           .force("charge", d3.forceManyBody())
-          .force("center", d3.forceCenter(width / 2, height / 2))
+          .force("center", d3.forceCenter(
+            (window.innerWidth - window.innerWidth * 0.3) / 2,
+            (window.innerHeight) / 2 ))
 
-    d3.json("api/graph", function(error, graph) {
-      let nodes = graph.nodes
-      let links = graph.links
-      let nodeById = d3.map(nodes, d => d.id)
-
-      links.forEach((link) => {
-        link.source = nodeById.get(link.source.id)
-        link.target = nodeById.get(link.target.id)
-      })
-
-      let link = svg.selectAll(".link")
-        .data(links)
-        .enter().append("path")
-          .attr("stroke-width", d => d.power < 0.1 ? 0.7 : d.power * 7)
-          .attr("class", "link")
-
-      let node = svg.selectAll(".node")
-        .data(nodes)
-        .enter().append("g")
-          .attr("class", "node")
-          .call(d3.drag()
-              .on("start", dragstarted)
-              .on("drag", dragged)
-              .on("end", dragended))
-
-      node.append("text")
-        .attr("dx", d => scale(d.postsPerDay) + 5)
-        .attr("dy", ".35em")
-        .text(d => d.title)
-
-      let makeLayers = (n) => {
-        for (let i = 0; i < n; i +=1 )
-          node.append("circle")
-            .attr("r", d => scale(d.postsPerDay) - i * scale(d.postsPerDay) / n)
-            .attr("fill", d =>
-                  d.tags.length > i ? colorById(d.tags[i]._id) : "white")
-            .attr("stroke", d =>
-                  d.tags.length > i ? colorById(d.tags[i]._id) : "white")
-      }
-
-      makeLayers(3)
-
+    window.addEventListener('resize', () => {
       simulation
-        .nodes(nodes)
-        .on("tick", () => {
-          link.attr("d", linkArc)
-          node.attr("transform", positionNode)
+        .force("center", d3.forceCenter(
+          (window.innerWidth - window.innerWidth * 0.3) / 2,
+          (window.innerHeight) / 2 ))
+        .restart()
+    })
+
+    let node = {}
+    let link = {}
+
+    store.watch(
+      state => state.graph,
+      graph => {
+        let nodes = graph.nodes
+        let links = graph.links
+        let nodeById = d3.map(nodes, d => d.id)
+
+        links.forEach((link) => {
+          link.source = nodeById.get(link.source.id)
+          link.target = nodeById.get(link.target.id)
         })
 
-      simulation
-        .force("link")
-        .links(links)
+        link = svg.selectAll(".link").data(links)
+        link.exit().remove()
+        link = link.enter().append("path")
+            .attr("stroke-width", d => d.power < 0.1 ? 0.7 : d.power * 7)
+            .attr("class", "link")
+            .merge(link)
+
+        node = svg.selectAll(".node").data(nodes)
+        node.exit().remove()
+        node = node.enter().append("g")
+            .attr("class", "node")
+            .call(d3.drag()
+                  .on("start", dragstarted)
+                  .on("drag", dragged)
+                  .on("end", dragended))
+            .call(parent => {
+              parent.append("text")
+                .attr("dx", d => scale(d.postsPerDay) + 5)
+                .attr("dy", ".35em")
+                .text(d => d.title)
+
+              let makeLayers = (n) => {
+                for (let i = 0; i < n; i +=1 )
+                  parent.append("circle")
+                    .attr("r", d =>
+                      scale(d.postsPerDay) - i * scale(d.postsPerDay) / n)
+                    .attr("fill", d =>
+                      d.tags.length > i ? colorById(d.tags[i]._id) : "white")
+                    .attr("stroke", d =>
+                      d.tags.length > i ? colorById(d.tags[i]._id) : "white")
+              }
+              makeLayers(3)
+            }).merge(node)
+
+        simulation
+          .nodes(nodes)
+          .on("tick", () => {
+            link.attr("d", linkArc)
+            node.attr("transform", positionNode)
+          })
+
+        simulation
+          .force("link")
+          .links(links)
+
+        simulation.alpha(1).restart();
     })
 
     const linkArc = d => {
@@ -92,7 +108,7 @@
     const positionNode = d => `translate(${d.x},${d.y})`
 
     const scale = n => {
-      if (n < 27) return 10
+      if (n < 27) return 3
       if (n > 8000) return 21
       return Math.cbrt(n)
     }

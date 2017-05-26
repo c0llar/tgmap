@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="name"> TGMAP </div>
     <div class="text">
       Nullam tristique diam non turpis. Vivamus id enim.  Fusce commodo.  In id erat non orci commodo lobortis.  Phasellus at dui in ligula mollis ultricies.  Fusce commodo.  Nulla facilisis, risus a rhoncus fermentum, tellus tellus lacinia purus, et dictum nunc justo sit amet elit.
     </div>
@@ -15,6 +14,7 @@
     },
 
     mounted() {
+      this.$store.dispatch('updateGraph')
     }
   }
 </script>
@@ -28,12 +28,12 @@
   }
 
   .text {
-    margin: -1.5vw 3px 0px 0;
+    margin: 5.5vw 3px 0px 0;
 
     font-size: 1vw;
     font-family: 'PT Mono', monospace;
 
-    padding-top: 7px;
+    padding-top: 3.2px;
     padding-bottom: 7px;
     padding-left: 13px;
     padding-right: 13px;

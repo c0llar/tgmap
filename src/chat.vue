@@ -4,11 +4,24 @@
       <div class="chatTitle">
         {{ chat.title }}
       </div>
+      <div class="username" v-if="chat.username">
+        <a v-bind:href="`https://t.me/${chat.username}`">@{{chat.username}}</a>
+      </div>
+      <div class="tags">
+        <span v-for="tag in chat.tags"
+              v-bind:style="{ color: colorById(tag._id) }" >
+          [{{ tag.name }}]
+        </span>
+      </div>
+      <div> {{ chat.participants.length }} members </div>
+      <div> {{ chat.postsPerDay }} posts for the last 24 hours</div>
     </div>
   </div>
 </template>
 
 <script>
+  import { colorById }  from './helpers'
+
   export default {
     data() {
       return {
@@ -22,7 +35,8 @@
         else
           return [ chats.find(chat => chat.id == Number(id)) ]
         return []
-      }
+      },
+      colorById
     },
 
     mounted() {

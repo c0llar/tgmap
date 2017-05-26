@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 const state = {
   chats: [],
-  tags: []
+  tags: [],
+  graph: []
 }
 
 const mutations = {
@@ -15,6 +16,9 @@ const mutations = {
   updateTags (state, tags) {
     tags = tags.sort((t1, t2) => t1.count - t2.count < 0 ? 1 : -1)
     state.tags = tags
+  },
+  updateGraph (state, graph) {
+    state.graph = graph
   }
 }
 
@@ -28,11 +32,16 @@ const actions = {
     fetch('/api/tags')
       .then(data => data.json())
       .then(tags => commit('updateTags', tags))
+  },
+  updateGraph ({ commit }) {
+    fetch('/api/graph')
+      .then(data => data.json())
+      .then(graph => commit('updateGraph', graph))
   }
 }
 
 const getters = {
-  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+  test: state => state
 }
 
 export default new Vuex.Store({
