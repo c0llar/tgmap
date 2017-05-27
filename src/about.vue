@@ -14,7 +14,6 @@
     },
 
     mounted() {
-      this.$store.dispatch('updateGraph')
     }
   }
 </script>

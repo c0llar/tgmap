@@ -39,8 +39,8 @@
     let link = {}
 
     store.watch(
-      state => state.graph,
-      graph => {
+      state => ({ graph: state.graph, currentChat: state.currentChat }),
+      ({ graph, currentChat }) => {
         let nodes = graph.nodes
         let links = graph.links
         let nodeById = d3.map(nodes, d => d.id)
@@ -49,6 +49,7 @@
           link.source = nodeById.get(link.source.id)
           link.target = nodeById.get(link.target.id)
         })
+
 
         link = svg.selectAll(".link").data(links)
         link.exit().remove()
@@ -61,6 +62,8 @@
         node.exit().remove()
         node = node.enter().append("g")
             .attr("class", "node")
+            .attr("fill", d => currentChat.id)
+            .attr("stroke", d => currentChat.id)
             .call(d3.drag()
                   .on("start", dragstarted)
                   .on("drag", dragged)
@@ -69,6 +72,7 @@
               parent.append("text")
                 .attr("dx", d => scale(d.postsPerDay) + 5)
                 .attr("dy", ".35em")
+                .attr("class", d => `chat${d.id}`)
                 .text(d => d.title)
 
               let makeLayers = (n) => {
@@ -84,6 +88,10 @@
               makeLayers(3)
             }).merge(node)
 
+        svg.selectAll('text').attr('stroke', 'white')
+        svg.selectAll(`.chat${currentChat.id}`)
+          .attr('stroke', 'red')
+
         simulation
           .nodes(nodes)
           .on("tick", () => {
@@ -94,6 +102,7 @@
         simulation
           .force("link")
           .links(links)
+
 
         simulation.alpha(1).restart();
     })

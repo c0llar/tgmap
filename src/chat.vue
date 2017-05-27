@@ -1,7 +1,7 @@
 <template>
   <div class="chat">
     <div v-for="chat in findChat($store.state.chats, $route.params.chatid)">
-      <div class="chatTitle">
+      <div class="chatTitle" >
         {{ chat.title }}
       </div>
       <div class="username" v-if="chat.username">
@@ -30,17 +30,31 @@
 
     methods: {
       findChat: (chats, id) => {
+        let chat = {}
         if (!Number(id))
-          return [ chats.find(chat => chat.username == id) ]
+          chat = chats.find(chat => chat.username == id)
         else
-          return [ chats.find(chat => chat.id == Number(id)) ]
-        return []
+          chat = chats.find(chat => chat.id == Number(id))
+
+        if (chat) return [ chat ]
+        else return [ {} ]
+
       },
       colorById
     },
 
     mounted() {
-      console.log(this.$store.state.chats, this.$route)
+      this.$store.dispatch(
+        'setCurrentChat',
+        this.findChat(this.$store.state.chats, this.$route.params.chatid)[0]
+      )
+    },
+
+    beforeDestroy() {
+      this.$store.dispatch(
+        'setCurrentChat',
+        {}
+      )
     }
   }
 </script>

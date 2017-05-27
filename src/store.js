@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const state = {
   chats: [],
   tags: [],
-  graph: []
+  graph: [],
+  currentChat: {}
 }
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
   },
   updateGraph (state, graph) {
     state.graph = graph
+  },
+  setCurrentChat (state, chat) {
+    state.currentChat = chat
   }
 }
 
@@ -37,6 +41,9 @@ const actions = {
     fetch('/api/graph')
       .then(data => data.json())
       .then(graph => commit('updateGraph', graph))
+  },
+  setCurrentChat ({ commit }, chat) {
+    commit('setCurrentChat', chat)
   }
 }
 
