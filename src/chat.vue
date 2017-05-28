@@ -1,6 +1,6 @@
 <template>
   <div class="chat">
-    <div v-for="chat in findChat($store.state.chats, $route.params.chatid)">
+    <div v-for="chat in findChat()">
       <div class="chatTitle" >
         {{ chat.title }}
       </div>
@@ -16,6 +16,21 @@
       <div> {{ chat.participants.length }} members </div>
       <div> {{ chat.postsPerDay }} posts for the last 24 hours</div>
     </div>
+
+    <div class="suggestions">
+      <div> Chats nearby: </div>
+      <div v-for="chat in suggestChats()">
+          <div class="suggestion">
+            <router-link v-if="chat.username" :to="{ path: chat.username }">
+              {{ chat.title }}
+            </router-link>
+            <router-link v-else :to="{ path: String(chat.id) }">
+              {{ chat.title }}
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,25 +44,42 @@
     },
 
     methods: {
-      findChat: (chats, id) => {
-        let chat = {}
-        if (!Number(id))
-          chat = chats.find(chat => chat.username == id)
-        else
-          chat = chats.find(chat => chat.id == Number(id))
+      findChat() {
+        let id = this.$route.params.chatid
+        let chat = this.$store.state.chats
+          .filter(chat => !Number(id) ? chat.username == id
+                                      : chat.id == Number(id))
 
-        if (chat) return [ chat ]
+        if (chat.length > 0) return chat
         else return [ {} ]
-
+      },
+      suggestChats() {
+        let id = this.$route.params.chatid
+        let chatIsTarget = this.$store.state.graph.links
+            .filter(link => !Number(id) ? link.target.username == id
+                                        : link.target.id == Number(id))
+            .map(link => link.source)
+        let chatIsSource = this.$store.state.graph.links
+            .filter(link => !Number(id) ? link.source.username == id
+                                        : link.source.id == Number(id))
+            .map(link => link.target)
+        return chatIsTarget.concat(chatIsSource)
+      },
+      updateCurrentChat() {
+        this.$store.dispatch(
+          'setCurrentChat',
+          this.findChat(this.$store.state.chats, this.$route.params.chatid)[0]
+        )
       },
       colorById
     },
 
+    watch: {
+      '$route': 'updateCurrentChat'
+    },
+
     mounted() {
-      this.$store.dispatch(
-        'setCurrentChat',
-        this.findChat(this.$store.state.chats, this.$route.params.chatid)[0]
-      )
+      this.updateCurrentChat()
     },
 
     beforeDestroy() {
@@ -77,10 +109,18 @@
     font-weight: bold;
   }
 
-  .chatname {
+  .suggestions {
+    padding-top: 7px;
+  }
+
+  .suggestion {
     font-family: 'Oswald', sans-serif;
-    font-size: 1.5vw;
+    font-size: 1.0vw;
     font-weight: bold;
+  }
+
+  .suggestion a {
+    text-decoration: none;
   }
 </style>
 
