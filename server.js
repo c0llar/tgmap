@@ -16,7 +16,6 @@ let Tag = require('./lib/models/tag')
 
 let postsMetric = require('./lib/chatPostsMetric')
 let graphMetric = require('./lib/graphLinkMetric')
-let graphMetric2 = require('./lib/graphLinkMetric')
 
 app.use(express.static('public'))
 

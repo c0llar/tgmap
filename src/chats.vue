@@ -34,7 +34,7 @@
   export default {
     data() {
       return {
-        search: this.$parent.srch || ''
+        search: this.$parent.searchBuffer || ''
       }
     },
 
@@ -46,7 +46,7 @@
     },
 
     beforeRouteLeave(to, from, next) {
-      this.$parent.srch = this.search
+      this.$parent.searchBuffer = this.search
       next()
     },
 
