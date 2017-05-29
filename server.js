@@ -21,8 +21,7 @@ let graphMetric2 = require('./lib/graphLinkMetric')
 app.use(express.static('public'))
 
 app.get('/api/chats', (req, res) => {
-  // Chat.find({ postsPerDay: { $gt: 0 }})
-  Chat.find()
+  Chat.find({ postsPerDay: { $gt: 0 }})
     .populate('tags')
     .populate('participants')
     .then(chats => JSON.stringify(chats))

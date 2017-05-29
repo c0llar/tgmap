@@ -1,9 +1,13 @@
 <template>
   <div class="tags">
     <span v-for="tag in $store.state.tags">
-      <div class="tag" v-if="tag.count"
-          v-bind:style="{ color: colorById(tag._id) }" >
-        [{{ tag.name }}]<sup>×{{ tag.count }}</sup>
+      <div class="tag" v-if="tag.count">
+        <router-link v-bind:style="{ color: colorById(tag._id) }"
+                           :to="{ name: 'CHATS'}">
+          <span v-on:click="$parent.searchBuffer = tag.name">
+            [{{ tag.name }}]<sup>×{{ tag.count }}</sup>
+          </span>
+        </router-link>
       </div>
     </span>
   </div>
@@ -22,7 +26,6 @@
     },
 
     mounted() {
-      this.$store.dispatch('updateTags')
     }
   }
 </script>
@@ -37,6 +40,10 @@
     padding-bottom: 3px;
     padding-left: 13px;
     padding-right: 13px;
+  }
+
+  .tag a {
+    text-decoration: none;
   }
 </style>
 

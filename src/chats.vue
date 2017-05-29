@@ -18,8 +18,8 @@
       </div>
       <div class="tags">
         <span v-for="tag in chat.tags"
-              v-bind:style="{ color: colorById(tag._id) }" >
-          [{{ tag.name }}]
+              v-bind:style="{ color: colorById(tag._id), cursor: 'pointer' }" >
+          <span v-on:click="search = tag.name"> [{{ tag.name }}] </span>
         </span>
       </div>
     <div> {{ chat.participants.length }} members </div>
@@ -34,15 +34,20 @@
   export default {
     data() {
       return {
-        search: ''
+        search: this.$parent.srch || ''
       }
     },
 
     methods: {
       filter: (chats, str) => chats
-        .filter(chat => chat.title.indexOf(str) >= 0),
-
+        .filter(chat => chat.title.indexOf(str) >= 0 ||
+                        chat.tags.some(tag => tag.name.indexOf(str) >= 0)),
       colorById
+    },
+
+    beforeRouteLeave(to, from, next) {
+      this.$parent.srch = this.search
+      next()
     },
 
     mounted() {

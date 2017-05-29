@@ -11,7 +11,11 @@
 
     <div class="sidebarContainer">
       <router-view> </router-view>
-      <div class="footer"> github link </div>
+      <div class="footer">
+        <a href="https://github.com/c0llar/tgmap">
+          <img src="img/github.svg" width="25vw" height="25vw" />
+        </a>
+      </div>
     </div>
 
   </div>
@@ -20,7 +24,9 @@
 <script>
   export default {
     data() {
-      return {}
+      return {
+        srch: ''
+      }
     },
 
     mounted() {

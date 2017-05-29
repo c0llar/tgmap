@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text">
-      Nullam tristique diam non turpis. Vivamus id enim.  Fusce commodo.  In id erat non orci commodo lobortis.  Phasellus at dui in ligula mollis ultricies.  Fusce commodo.  Nulla facilisis, risus a rhoncus fermentum, tellus tellus lacinia purus, et dictum nunc justo sit amet elit.
+      This is a map of telegram chats. You can add this <a href="https://t.me/dora_the_explorer_bot">bot</a> to get your chat listed.
     </div>
   </div>
 </template>
