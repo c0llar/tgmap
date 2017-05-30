@@ -37,6 +37,7 @@ let setupWebhook = () => {
                 .then(res => console.log(`[DEBUG] ${res.description}`)))
   } else {
     api.setWebhook(config.webhookUrl, config.certificate)
+      .then( _ => console.log(`[PROD] webhook was set at ${config.webhookUrl}`))
   }
 }
 

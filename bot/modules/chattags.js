@@ -37,7 +37,7 @@ const setTags = (message) => {
               .then(tag => pushTag(message.chat.id, tag)))
 
   Promise.all(tagJobs).then( _ =>
-      api.sendReply(message.chat.id, message.message_id, 'Tags are set 👌'))
+      api.sendReply(message.chat.id, message.message_id, 'Tags were set 👌'))
 }
 
 const pushTag = (chatId, tag) =>
