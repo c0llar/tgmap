@@ -1,22 +1,15 @@
-let http = require('http')
 let EventEmitter = require('events').EventEmitter;
 let localtunnel = require('localtunnel')
+
+let express = require('express')
+let bodyParser = require('body-parser')
+let app = express()
+app.use(bodyParser.json())
 
 let config = require('../config')
 let api = require('./api')
 
 let medium = new EventEmitter();
-
-let server = http.createServer((request, response) => {
-  let body = []
-  request
-    .on('data', chunk => body.push(chunk))
-    .on('end', () => {
-      body = Buffer.concat(body).toString()
-      emitUpdate(JSON.parse(body))
-      response.end()
-    })
-})
 
 let emitUpdate = update => {
   if (update.message) {
@@ -41,9 +34,14 @@ let setupWebhook = () => {
   }
 }
 
-server.listen(
+app.post('*', (req, res) => {
+  emitUpdate(req.body)
+  res.end()
+});
+
+app.listen(
   config.webhookPort,
-  '127.0.0.1',
+  "127.0.0.1",
   () => {
     setupWebhook()
     console.log('[BOT] Started')
