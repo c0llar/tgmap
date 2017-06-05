@@ -5,7 +5,11 @@ let app = express()
 let mongoose = require('mongoose')
 
 mongoose.Promise = global.Promise
-mongoose.connect(config.mongodbURI)
+mongoose.connect(config.mongodbURI, {
+  user: config.mongoUser,
+  pass: config.mongoPass
+})
+
 mongoose.connection
   .on('error', err => console.log('[APP] db connection error'))
   .once('open', () => console.log('[APP] db connection established'))

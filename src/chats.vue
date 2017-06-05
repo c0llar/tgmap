@@ -4,7 +4,7 @@
       <input v-model="search"
              type="text" placeholder="search" spellcheck="false" />
     </div>
-    <div class="chat" v-for="chat in filter($store.state.chats, search)">
+    <div class="chat" v-for="chat in filteredChats">
       <div class="chatname">
         <router-link v-if="chat.username" :to="{ path: chat.username }">
           {{ chat.title }}
@@ -39,10 +39,27 @@
     },
 
     methods: {
-      filter: (chats, str) => chats
-        .filter(chat => chat.title.indexOf(str) >= 0 ||
-                        chat.tags.some(tag => tag.name.indexOf(str) >= 0)),
       colorById
+    },
+
+    computed: {
+      filteredChats() {
+        let searchWords = this.search
+            .split(' ').map(word => word.toLowerCase())
+
+        if (searchWords.length > 1)
+          searchWords = searchWords.filter(word => word != '')
+
+        let chats = this.$store.state.chats
+        for (let word of searchWords) {
+          chats = chats
+            .filter(chat =>
+                    chat.title.toLowerCase().indexOf(word) >= 0 ||
+                    chat.tags.some(tag =>
+                                   tag.name.toLowerCase().indexOf(word) >= 0))
+        }
+        return chats
+      }
     },
 
     beforeRouteLeave(to, from, next) {
