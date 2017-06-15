@@ -22,14 +22,14 @@
           <span v-on:click="search = tag.name"> [{{ tag.name }}] </span>
         </span>
       </div>
-    <div> {{ chat.participants.length }} members </div>
-    <div> {{ chat.postsPerDay }} posts for the last 24 hours</div>
+      <div> {{ formatStringNumber('member', chat.participants.length) }} </div>
+      <div> {{ formatStringNumber('post', chat.postsPerDay) }} for the last 24 hours</div>
     </div>
   </div>
 </template>
 
 <script>
-  import { colorById }  from './helpers'
+  import { colorById, formatStringNumber }  from './helpers'
 
   export default {
     data() {
@@ -39,7 +39,8 @@
     },
 
     methods: {
-      colorById
+      colorById,
+      formatStringNumber
     },
 
     computed: {

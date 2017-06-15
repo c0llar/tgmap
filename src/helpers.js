@@ -10,5 +10,8 @@ const hash = str => { // djb2
 
 const reverseString = str => str.split('').reverse().join('')
 
-export const colorById = id => interpolateRainbow(hash(reverseString(id)) % 0.99)
+export const colorById = id =>
+  interpolateRainbow(hash(reverseString(id)) % 0.99)
 
+export const formatStringNumber = (word, count) =>
+  count != 1 ? `${count} ${word}s` : `1 ${word}`

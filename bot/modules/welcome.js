@@ -8,11 +8,11 @@ Hola soy Dora la exploradora
 /info_ru@${config.username}
 `
 const info_ru = `
-Этот бот собирает чаты в карту, которая доступна на http://138.68.87.111/
+Этот бот собирает чаты в карту, которая доступна на https://c0llar.me
 Администраторы данного чата могут задать ему тэги с помощью команды /tag [tag1] [tag2] [tag3]
 `
 const info_en = `
-Purpose of this bot is to collect chats into map which you access at http://138.68.87.111/
+Purpose of this bot is to collect chats into map which you access at https://c0llar.me
 Adminstators can set tags for a chat via /tag [tag1] [tag2] [tag3] command
 `
 
