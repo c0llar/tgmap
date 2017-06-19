@@ -2,8 +2,14 @@
   "DEBUG" : true,
   "token" : "",
   "webhookPort" : 0,
+  "webhookUrl" : "",
+  "certificate" : "",
   "serverPort" : 0,
   "mongodbURI" : "mongodb://localhost/test",
+  "mongoUser" : "",
+  "mongoPass" : "",
   "username" : "username",
-  "PPDupdateInterval" : 10
+  "PPDupdateInterval" : 10,
+  "graphUpdateInterval" : 5,
+  "chatTitleUpdateInterval" : 15
 }

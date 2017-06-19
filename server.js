@@ -4,6 +4,8 @@ let app = express()
 
 let mongoose = require('mongoose')
 
+let api = require('./bot/api')
+
 mongoose.Promise = global.Promise
 mongoose.connect(config.mongodbURI, {
   user: config.mongoUser,
@@ -20,6 +22,7 @@ let Tag = require('./lib/models/tag')
 
 let postsMetric = require('./lib/chatPostsMetric')
 let graphMetric = require('./lib/graphLinkMetric')
+let titleUpdater = require('./lib/chatTitleUpdater')
 
 app.use(express.static('public'))
 
@@ -51,6 +54,8 @@ app.get('/api/graph', (req, res) => {
 })
 
 app.get('/api/:chatId', (req, res) => {
+  api.getChat(req.params.chatId)
+    .then(chat => console.log(chat))
   Chat.findOne({id: Number(req.params.chatId)})
     .populate('tags')
     .populate('participants')

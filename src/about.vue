@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="text">
-      This is a map of telegram chats. You can add this <a href="https://t.me/dora_the_explorer_bot">bot</a> to get your chat listed.
+  This is a map of telegram chats. You can add this <a href="https://t.me/dora_the_explorer_bot">bot</a> to get your chat listed and contact <a href="https://t.me/kaschmir">me</a> if you have any questions.
+
     </div>
   </div>
 </template>

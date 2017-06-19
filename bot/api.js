@@ -51,15 +51,21 @@ const sendReply = (recepient, replyTo, text ) => {
   })
 }
 
-const getChatAdministrators = (chatId) => {
-  return invokeMethod('getChatAdministrators', {
-    chat_id: chatId
+const getChat = (id) => {
+  return invokeMethod('getChat', {
+    chat_id: id
   })
 }
 
-const getUserProfilePhotos = (userId, offset, limit = 100) => {
+const getChatAdministrators = (id) => {
+  return invokeMethod('getChatAdministrators', {
+    chat_id: id
+  })
+}
+
+const getUserProfilePhotos = (id, offset, limit = 100) => {
   return invokeMethod('getUserProfilePhotos', {
-    user_id: userId,
+    user_id: id,
     offset: offset,
     limit: limit
   })
@@ -71,6 +77,7 @@ module.exports = {
   sendMsg,
   sendReply,
   sendPhoto,
+  getChat,
   getChatAdministrators,
   getUserProfilePhotos
 }
